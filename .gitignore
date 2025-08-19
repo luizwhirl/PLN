@@ -1,2 +1,8 @@
 histograma.png
 processed_dataset.csv
+cm_countvectorizer_naive_bayes.png
+cm_countvectorizer_regressão_logística.png
+cm_countvectorizer_svm_linear.png
+cm_tf-idf_naive_bayes.png
+cm_tf-idf_regressão_logística.png
+cm_tf-idf_svm_linear.png
