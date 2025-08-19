@@ -17,7 +17,7 @@ df['processed_comment'] = df['Comment'].apply(preprocess_text)
 
 # fica comentário original, comentário processado e o sentimento
 processed_df = df[['Comment', 'processed_comment', 'sentiment']]
-processed_df.to_csv('processed_dataset.csv', index=False)
+processed_df.to_csv('lista1/processed_dataset.csv', index=False)
 
 df['tokens'] = df['processed_comment'].apply(lambda x: x.split())
 todosTk = [token for listaTk in df['tokens'] for token in listaTk]

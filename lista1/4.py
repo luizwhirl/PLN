@@ -18,7 +18,7 @@ try:
     plt.ylabel('Frequência')
     plt.grid(axis='y', linestyle='--', linewidth=0.7)
 
-    plt.savefig('histograma.png')
+    plt.savefig('lista1/histograma.png')
 
 except FileNotFoundError:
     print("sem csv")
