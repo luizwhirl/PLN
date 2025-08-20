@@ -7,3 +7,7 @@ cm_tf-idf_naive_bayes.png
 cm_tf-idf_regressão_logística.png
 cm_tf-idf_svm_linear.png
 grafico_coerencia_nmf.png
+silhouette_tfidf.png
+silhouette_nmf.png
+elbow_tfidf.png
+elbow_nmf.png
