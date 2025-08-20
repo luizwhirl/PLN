@@ -11,3 +11,8 @@ silhouette_tfidf.png
 silhouette_nmf.png
 elbow_tfidf.png
 elbow_nmf.png
+questao_4a_projecoes_tfidf.png
+questao_4b_tsne_perplexity.png
+questao_4b_umap_n_neighbors.png
+questao_4c_projecoes_nmf.png
+questao_4c_projecoes_nmf_otimizadas.png
