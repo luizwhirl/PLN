@@ -15,7 +15,7 @@ except LookupError:
     nltk.download('punkt')
     nltk.download('punkt_tab')
 
-csv_file = 'da.csv'
+csv_file = '../lista1/processed_dataset.csv'
 
 # a) (via Downloader)
 print("--- etapa a) ---")
