@@ -9,8 +9,8 @@ import networkx as nx
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
-    print("Modelo 'en_core_web_sm' não encontrado. Por favor, execute:")
-    print("python -m spacy download en_core_web_sm")
+    # print("en_core_web_sm nao tá sendo encontrado. Rode 'python -m spacy download en_core_web_sm' ")
+    # print("")
     exit()
 
 try:
@@ -23,13 +23,13 @@ TEXT_COLUMN = 'Comment'
 
 df.dropna(subset=[TEXT_COLUMN], inplace=True)
 df[TEXT_COLUMN] = df[TEXT_COLUMN].astype(str)
-sample_df = df.sample(n=10000, random_state=42)
+sample_df = df.sample(n=500, random_state=42)
 texts = sample_df[TEXT_COLUMN].tolist()
 
 
 # a) rxtraindo  etiquetas gramaticais de cada token do texto
 
-print("Iniciando a Tarefa a) e b): Extração e Contagem de Etiquetas POS...")
+print("Iniciando a tarefa a) e b) - Extraindo e contando Etiquetas POS...")
 
 all_pos_tags = []
 docs = list(nlp.pipe(texts))
@@ -38,7 +38,7 @@ for doc in docs:
     for token in doc:
         all_pos_tags.append(token.pos_)
 
-print(f"Tarefa a) concluída. Total de {len(all_pos_tags)} tokens etiquetados.")
+print(f"a) concluído. Total de {len(all_pos_tags)} tokens etiquetados")
 
 
 # b) calculando e plotando um gráfico com as frequências de cada tipo gramatical
@@ -55,13 +55,13 @@ plt.xlabel('Etiqueta Gramatical (POS)', fontsize=12)
 plt.ylabel('Frequência Absoluta', fontsize=12)
 plt.xticks(rotation=45)
 plt.tight_layout()
-print("Tarefa b) concluída. Exibindo o gráfico de frequências POS...")
+print("b) concluído. Exibindo o gráfico de frequências POS...")
 plt.show()
 
 
 # c) reconhecimento de entidades nomeadas 
 
-print("\nIniciando a Tarefa c): Reconhecimento de Entidades Nomeadas (ORG)...")
+print("\nIniciando c) - Reconhecendo entidades nomeadas...")
 
 entities_per_doc = []
 for doc in docs:
@@ -71,13 +71,13 @@ for doc in docs:
     if current_doc_entities:
         entities_per_doc.append(list(current_doc_entities))
 
-print(f"Tarefa c) concluída. Entidades 'ORG' encontradas em {len(entities_per_doc)} documentos.")
+print(f"c) concluída. Entidades 'ORG' encontradas em {len(entities_per_doc)} documentos")
 print("Exemplos de documentos com entidades:", entities_per_doc[:5])
 
 
 # d) gerando um grafo com pesos onde os nós representam cada entidade reconhecida
 
-print("\nIniciando a Tarefa d): Geração e Plotagem do Grafo de Coocorrência...")
+print("\niniciando d) - Geração e plotagem do drafo de coocorrência...")
 
 edge_weights = Counter()
 
@@ -98,13 +98,13 @@ if G.number_of_edges() > 0:
 
     if G_filtered.number_of_edges() > 0:
         G_to_plot = G_filtered
-        print(f"O grafo foi filtrado. Mostrando as {G_to_plot.number_of_edges()} conexões mais fortes (peso > 1).")
+        print(f"O grafo foi filtrado. Mostrando as {G_to_plot.number_of_edges()} conexões mais fortes (peso > 1)")
     else:
         G_to_plot = G
-        print("Nenhuma conexão com peso > 1 encontrada. Mostrando o grafo completo.")
+        print("nenhuma conexão com peso > 1 encontrada. \nMostrando o grafo completo")
 else:
     G_to_plot = G
-    print("Nenhuma coocorrência encontrada para gerar o grafo.")
+    print("nenhuma coocorrência encontrada para gerar o grafo")
 
 if G_to_plot.number_of_nodes() > 0:
     plt.figure(figsize=(16, 16))
@@ -117,7 +117,7 @@ if G_to_plot.number_of_nodes() > 0:
 
     plt.title("Grafo de Coocorrência de Organizações (Empresas de Games)", fontsize=20)
     plt.axis('off')
-    print("Tarefa d) concluída. Exibindo o grafo...")
+    print("d) concluída. Exibindo o grafo...")
     plt.show()
 else:
-    print("Não há nós ou arestas suficientes para desenhar o grafo.")
+    print("Não há nós ou arestas suficientes para desenhar o grafo")
