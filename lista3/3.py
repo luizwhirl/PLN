@@ -6,8 +6,6 @@ import seaborn as sns
 from itertools import combinations
 import networkx as nx
 
-# --- Configurações Iniciais ---
-# Carregar o modelo pequeno em inglês da spaCy
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
@@ -15,31 +13,21 @@ except OSError:
     print("python -m spacy download en_core_web_sm")
     exit()
 
-# Carregar o dataset
 try:
     df = pd.read_csv("../dataset.csv")
 except FileNotFoundError:
-    print("Arquivo 'dataset.csv' não encontrado. Faça o download de:")
-    print("https://www.kaggle.com/datasets/sainitishmitta04/23k-reddit-gaming-comments-with-sentiments-dataset")
+    print("dataset.csv não encontrado")
     exit()
 
-# Para verificar as colunas disponíveis, você pode descomentar a linha abaixo:
-# print("Colunas disponíveis no dataset:", df.columns)
-
-# *** CORREÇÃO APLICADA AQUI ***
-# A coluna com os textos chama-se 'Comment', e não 'body'.
 TEXT_COLUMN = 'Comment'
 
-# Limpeza e amostragem dos dados
 df.dropna(subset=[TEXT_COLUMN], inplace=True)
 df[TEXT_COLUMN] = df[TEXT_COLUMN].astype(str)
-sample_df = df.sample(n=2000, random_state=42)
+sample_df = df.sample(n=10000, random_state=42)
 texts = sample_df[TEXT_COLUMN].tolist()
 
 
-# ==============================================================================
-# a) Extraia as etiquetas gramaticais (POS) de cada token do seu textos.
-# ==============================================================================
+# a) rxtraindo  etiquetas gramaticais de cada token do texto
 
 print("Iniciando a Tarefa a) e b): Extração e Contagem de Etiquetas POS...")
 
@@ -53,9 +41,7 @@ for doc in docs:
 print(f"Tarefa a) concluída. Total de {len(all_pos_tags)} tokens etiquetados.")
 
 
-# ==============================================================================
-# b) Calcule e plote um gráfico com as frequências de cada tipo gramatical.
-# ==============================================================================
+# b) calculando e plotando um gráfico com as frequências de cada tipo gramatical
 
 pos_counts = Counter(all_pos_tags)
 most_common_pos = pos_counts.most_common(15)
@@ -73,9 +59,7 @@ print("Tarefa b) concluída. Exibindo o gráfico de frequências POS...")
 plt.show()
 
 
-# ==============================================================================
-# c) Reconhecimento de Entidades Nomeadas (NER).
-# ==============================================================================
+# c) reconhecimento de entidades nomeadas 
 
 print("\nIniciando a Tarefa c): Reconhecimento de Entidades Nomeadas (ORG)...")
 
@@ -91,9 +75,7 @@ print(f"Tarefa c) concluída. Entidades 'ORG' encontradas em {len(entities_per_d
 print("Exemplos de documentos com entidades:", entities_per_doc[:5])
 
 
-# ==============================================================================
-# d) Gere um grafo com pesos onde os nós representam cada entidade reconhecida.
-# ==============================================================================
+# d) gerando um grafo com pesos onde os nós representam cada entidade reconhecida
 
 print("\nIniciando a Tarefa d): Geração e Plotagem do Grafo de Coocorrência...")
 
@@ -111,8 +93,8 @@ for (entity1, entity2), weight in edge_weights.items():
 if G.number_of_edges() > 0:
     G_filtered = nx.Graph()
     for u, v, data in G.edges(data=True):
-        if data['weight'] > 1:
-            G_filtered.add_edge(u, v, weight=data['weight'])
+        # if data['weight'] > 1:
+        G_filtered.add_edge(u, v, weight=data['weight'])
 
     if G_filtered.number_of_edges() > 0:
         G_to_plot = G_filtered
